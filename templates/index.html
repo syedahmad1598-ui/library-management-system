@@ -1,1 +1,136 @@
+<!DOCTYPE html>
+<html>
 
+<head>
+
+    <title>Library Management System</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+<div class="navbar">
+    <h2>📚 Library Management System</h2>
+</div>
+
+<div class="container">
+
+    <h3>Dashboard</h3>
+
+    <div class="dashboard">
+
+        <div class="card">
+            <h2>{{ total_books }}</h2>
+            <p>Total Books</p>
+        </div>
+
+        <div class="card">
+            <h2>{{ total_members }}</h2>
+            <p>Total Members</p>
+        </div>
+
+    </div>
+
+    <hr>
+
+    <h3>Add Book</h3>
+
+    <form method="POST" action="/add_book">
+
+        <input type="text" name="title" placeholder="Book Title" required>
+
+        <input type="text" name="author" placeholder="Author" required>
+
+        <button>Add Book</button>
+
+    </form>
+
+    <hr>
+
+    <h3>Search Book</h3>
+
+    <form method="POST" action="/search">
+
+        <input type="text" name="keyword" placeholder="Search by title or author">
+
+        <button>Search</button>
+
+    </form>
+
+    <hr>
+
+    <h3>Books</h3>
+
+    <table>
+
+        <tr>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+
+        {% for book in books %}
+
+        <tr>
+
+            <td>{{ book['title'] }}</td>
+
+            <td>{{ book['author'] }}</td>
+
+            <td>
+
+                {% if book['issued_to'] %}
+                Issued
+                {% else %}
+                Available
+                {% endif %}
+
+            </td>
+
+            <td>
+
+                <a class="btn issue" href="/issue/{{book['id']}}">Issue</a>
+
+                <a class="btn return" href="/return/{{book['id']}}">Return</a>
+
+            </td>
+
+        </tr>
+
+        {% end for %}
+
+    </table>
+
+    <hr>
+
+    <h3>Add Member</h3>
+
+    <form method="POST" action="/add_member">
+
+        <input type="text" name="name" placeholder="Member Name" required>
+
+        <button>Add Member</button>
+
+    </form>
+
+    <h3>Members</h3>
+
+    <ul>
+
+        {% for member in members %}
+
+        <li>{{ member['name'] }}</li>
+
+        {% end for %}
+
+    </ul>
+
+</div>
+
+</body>
+
+</html>
